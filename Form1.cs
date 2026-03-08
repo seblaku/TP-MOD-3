@@ -8,6 +8,10 @@ namespace WindowsFormsApp1
         Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9;
         Button btnPlus, btnEqual;
 
+        double simpan = 0;
+        double total = 0;
+        bool operatorDitekan = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -37,11 +41,62 @@ namespace WindowsFormsApp1
             btn0 = new Button(); btn0.Text = "0"; btn0.Size = new System.Drawing.Size(50, 50); btn0.Location = new System.Drawing.Point(85, 260);
             btnEqual = new Button(); btnEqual.Text = "="; btnEqual.Size = new System.Drawing.Size(50, 50); btnEqual.Location = new System.Drawing.Point(150, 260);
 
+            // Event handler angka
+            btn0.Click += TombolAngka_Click;
+            btn1.Click += TombolAngka_Click;
+            btn2.Click += TombolAngka_Click;
+            btn3.Click += TombolAngka_Click;
+            btn4.Click += TombolAngka_Click;
+            btn5.Click += TombolAngka_Click;
+            btn6.Click += TombolAngka_Click;
+            btn7.Click += TombolAngka_Click;
+            btn8.Click += TombolAngka_Click;
+            btn9.Click += TombolAngka_Click;
+
+            // Event handler operator
+            btnPlus.Click += TombolPlus_Click;
+            btnEqual.Click += TombolEqual_Click;
+
             this.Controls.Add(txtOutput);
             this.Controls.Add(btn1); this.Controls.Add(btn2); this.Controls.Add(btn3);
             this.Controls.Add(btn4); this.Controls.Add(btn5); this.Controls.Add(btn6);
             this.Controls.Add(btn7); this.Controls.Add(btn8); this.Controls.Add(btn9);
             this.Controls.Add(btnPlus); this.Controls.Add(btn0); this.Controls.Add(btnEqual);
+        }
+
+        // Saat tombol angka ditekan
+        private void TombolAngka_Click(object sender, System.EventArgs e)
+        {
+            Button tombol = (Button)sender;
+
+            if (operatorDitekan)
+            {
+                txtOutput.Text = tombol.Text;
+                operatorDitekan = false;
+            }
+            else
+            {
+                if (txtOutput.Text == "0")
+                    txtOutput.Text = tombol.Text;
+                else
+                    txtOutput.Text += tombol.Text;
+            }
+        }
+
+        // Saat tombol + ditekan
+        private void TombolPlus_Click(object sender, System.EventArgs e)
+        {
+            simpan += double.Parse(txtOutput.Text);
+            operatorDitekan = true;
+        }
+
+        // Saat tombol = ditekan
+        private void TombolEqual_Click(object sender, System.EventArgs e)
+        {
+            simpan += double.Parse(txtOutput.Text);
+            txtOutput.Text = simpan.ToString();
+            simpan = 0;
+            operatorDitekan = true;
         }
     }
 }
